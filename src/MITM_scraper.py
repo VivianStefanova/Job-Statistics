@@ -42,21 +42,27 @@ def get_response(page:int=1, searchWord:str="", pageSize:int=20) -> dict:
         print(f"Scraper failiure: {response.status_code}")
         raise Exception(f"Scraper failiure: {response.status_code}")
     return response.json()["data"]        
-def cleanSalary(salary:str) -> List[int]:
+def clean_salary(salary:str) -> List[int]:
 #-1 means Dependent on experience
 #-2 means Not specified
     salary=salary.lower()
+    result=[]
     if("experience" in salary or "doe" in salary or "exp" in salary):
        return [-1]
-    numbers = re.findall('[\d,]+(\.\d+)?', salary)
+    #try:
+    numbers = re.findall(r'([\d,]+(\.[\d]+)?)', salary)
     if(len(numbers) == 0 or len(numbers) > 2):
         return [-2]
+    print (numbers)
     for i in numbers:
-        numbers[i].replace(",","")
-        numbers[i]=int(float(numbers[i]))
-        if(numbers[i]<300):
+        res=int(float(i[0].replace(",","")))
+        if(res<300):
             #Annual salary = hourly wage × hours per week × weeks per year(40 hours and 50 weeks)
-            numbers[i]*=2000
-    if(numbers[0] <1):
+            res*=2000
+        result.append(res)    
+    if(result[0] <1):
         return [-2]    
-    return numbers
+    return result
+    # except Exception as e:
+    #     print(e)
+    #     return [-2]
