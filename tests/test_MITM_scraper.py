@@ -3,7 +3,11 @@ import unittest
 from src.MITM_scraper import get_response, clean_salary
 
 class MITM_scraper_tests(unittest.TestCase):
-    pass
+    def test_expirience(self):
+        response = get_response()
+        self.assertEqual(type(response), list)
+        self.assertEqual(type(response[0]), dict)
+        self.assertTrue("title" in response[0])
 
 class clean_salary_tests(unittest.TestCase):
     def test_expirience(self):
@@ -26,4 +30,5 @@ class clean_salary_tests(unittest.TestCase):
         self.assertEqual(clean_salary('USD 125,000'), [125000])
        
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main() 
+    

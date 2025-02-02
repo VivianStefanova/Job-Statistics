@@ -1,7 +1,7 @@
 import requests
 import re
 from typing import List
-def get_response(page:int=1, searchWord:str="", pageSize:int=20) -> dict:
+def get_response(page:int=1, searchWord:str="", pageSize:int=20) -> list:
     headers = {
         'accept': 'application/json, text/plain, */*',
         'accept-language': 'en-US,en-GB;q=0.9,en;q=0.8,bg-BG;q=0.7,bg;q=0.6',
@@ -42,6 +42,7 @@ def get_response(page:int=1, searchWord:str="", pageSize:int=20) -> dict:
         print(f"Scraper failiure: {response.status_code}")
         raise Exception(f"Scraper failiure: {response.status_code}")
     return response.json()["data"]        
+
 def clean_salary(salary:str) -> List[int]:
 #-1 means Dependent on experience
 #-2 means Not specified
