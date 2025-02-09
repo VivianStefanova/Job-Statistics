@@ -40,7 +40,33 @@ def start_SQL(database:str = "job_statistics", table:str = "job_data",
     mydb.close()
     print("Database and table created")
 
+def insert_values(data:list, is_API:bool, database:str = "job_statistics", table:str = "job_data",
+              mhost:str|None = SQL_HOST, muser:str|None = SQL_USER, mpassword:str|None = SQL_PASSWORD) ->None:
+    if(is_API):
+       from src.SQL_utils import get_insert_values_API_scraper as get_insert_values
+    else:
+        from src.SQL_utils import get_insert_values_MITM_scraper as get_insert_values  
 
-   
+    mydb = mysql.connector.connect(
+        host = mhost,
+        user = muser,
+        password = mpassword,
+        database = database,
+        use_pure=True
+        )
+    values = [get_insert_values(i) for i in data]
+    print (values)
+    cursor = mydb.cursor()
+    for i in values:
+        print(len(i))
+    insert_sting = f"""INSERT INTO {table} (title, company,
+                        posted_date, salary_min, salary_max, location,
+                         contract_time, remote) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
+    cursor.executemany(insert_sting, values)
+    mydb.commit()
+    mydb.close()
+    print("Values inserted")
+
+       
    
     

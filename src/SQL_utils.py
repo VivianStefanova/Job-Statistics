@@ -40,7 +40,7 @@ def get_insert_values_MITM_scraper(data:dict) -> Tuple[str]:
         res.append(-2)
         res.append(-2)
     if("jobLocation" in data):
-        res.append(data["jobLocation"]["displayName"])
+        res.append(data["jobLocation"]["displayName"].split(",")[1].strip())
     else: res.append("unknown")       
     if("employmentType" in data):
         res.append(clean_contract_time(data["employmentType"]))
