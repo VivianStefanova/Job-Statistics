@@ -65,6 +65,53 @@ def insert_values(data:list, is_API:bool, database:str = "job_statistics", table
     mydb.close()
     print("Values inserted")
 
+def get_number_of_entries(database:str = "job_statistics", table:str = "job_data",
+              mhost:str|None = SQL_HOST, muser:str|None = SQL_USER, mpassword:str|None = SQL_PASSWORD):
+    mydb = mysql.connector.connect(
+        host = mhost,
+        user = muser,
+        password = mpassword,
+        database = database,
+        use_pure=True
+        )
+    cursor = mydb.cursor()
+    cursor.execute(f"SELECT COUNT(*) FROM {table}")
+    res = cursor.fetchall()
+    mydb.close()
+    return res[0][0]
+
+def get_company_data(database:str = "job_statistics", table:str = "job_data",
+              mhost:str|None = SQL_HOST, muser:str|None = SQL_USER, mpassword:str|None = SQL_PASSWORD):
+    mydb = mysql.connector.connect(
+        host = mhost,
+        user = muser,
+        password = mpassword,
+        database = database,
+        use_pure=True
+        )
+    cursor = mydb.cursor()
+    cursor.execute(f"select company, count(*) as listings from {table} group by company order by listings desc limit 15;")
+    res = cursor.fetchall()
+    mydb.close()
+    return res
+
+def get_salary_data(database:str = "job_statistics", table:str = "job_data",
+              mhost:str|None = SQL_HOST, muser:str|None = SQL_USER, mpassword:str|None = SQL_PASSWORD):
+    mydb = mysql.connector.connect(
+        host = mhost,
+        user = muser,
+        password = mpassword,
+        database = database,
+        use_pure=True
+        )
+    cursor = mydb.cursor()
+    cursor.execute(f"""select  posted_date , avg(salary_min) as min_salary , avg(salary_max)  as max_salary from {table}
+                        group by  MONTH(posted_date)+'-'+YEAR(posted_date) order by posted_date DESC;""")
+    res = cursor.fetchall()
+    mydb.close()
+    return res
+
+
        
    
     

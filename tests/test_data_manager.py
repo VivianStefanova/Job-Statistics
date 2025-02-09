@@ -1,6 +1,6 @@
 import unittest
 import mysql.connector
-import src.data_menager as dm
+import src.data_manager as dm
 import datetime
 
 import os

@@ -3,16 +3,21 @@ from typing import List
 
 import requests
 import dotenv
-
 dotenv.load_dotenv()
 
-API_ID = os.getenv("API_ID")
-API_KEY = os.getenv("API_KEY")
+API_ID1 = os.getenv("API_ID")
 
-if not API_KEY or not API_ID:
-    raise ValueError("No API key or ID provided!")
 
-def get_response(page:int = 1, page_size:int = 50, id = API_ID) -> List[dict]:
+def get_response(page:int = 1, page_size:int = 20, id = '') -> List[dict]:
+    dotenv.load_dotenv()
+
+    API_ID = os.getenv("API_ID")
+    print(API_ID)
+    API_KEY = os.getenv("API_KEY")
+    if(id == ''): id = API_ID
+
+    if not API_KEY or not API_ID:
+        raise ValueError("No API key or ID provided!")
     params = {
     'app_id': id,
     'app_key': API_KEY,
