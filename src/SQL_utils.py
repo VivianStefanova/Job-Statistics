@@ -1,6 +1,6 @@
 from typing import List, Tuple
-import MITM_scraper as mi
-import API_scraper as api
+import src.MITM_scraper as mi
+import src.API_scraper as api
 
 def clean_date(date:str) -> str:
     return date.split('T')[0]
@@ -37,6 +37,7 @@ def get_insert_values_MITM_scraper(data:dict) -> Tuple[str]:
             res.append(sal[0])
             res.append(sal[1])    
     else:
+        res.append(-2)
         res.append(-2)
     if("jobLocation" in data):
         res.append(data["jobLocation"]["displayName"])
