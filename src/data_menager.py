@@ -9,7 +9,7 @@ SQL_USER = os.getenv("SQL_USER")
 SQL_PASSWORD = os.getenv("SQL_PASSWORD")
 
 def start_SQL(database:str = "job_statistics", table:str = "job_data",
-              mhost:str|None = SQL_HOST, muser:str|None = SQL_USER, mpassword:str|None = SQL_PASSWORD) ->None:
+              mhost:str|None = SQL_HOST, muser:str|None = SQL_USER, mpassword:str|None = SQL_PASSWORD) ->None|Exception:
     try:
         mydb = mysql.connector.connect(
             host = mhost,
