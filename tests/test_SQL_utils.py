@@ -20,9 +20,18 @@ class get_insert_values_tests(unittest.TestCase):
     def test_get_insert_values_MITM_scraper(self):
         self.assertEqual(sql.get_insert_values_MITM_scraper(self.dict_MITM), 
                          ('REMOTE Structural Engineer', 'Jobot', '2025-02-08', 120000, 140000, 'US', 'full_time', True))
+       
+        dict_m_1 = {'id': '30d3b5d654ffeb1633abc56431ab507e', 'title': 'REMOTE Structural Engineer', 
+                'detailsPageUrl': 'https://www.dice.com/job-detail/325ad40a-d81d-427e-92dc-878becad82b2', 'companyPageUrl': 'https://www.dice.com/company/91113390', 'companyLogoUrl': 'https://d3qscgr6xsioh.cloudfront.net/RVkPsbuFScmLFloqItyr_transformed.png?format=webp', 'companyLogoUrlOptimized': 'https://d3qscgr6xsioh.cloudfront.net/RVkPsbuFScmLFloqItyr_transformed.png?format=webp',  'clientBrandId': '91113390', 'companyName': 'Jobot',  'summary': '   A bit about us:  We are a 70+ years strong leader in the Property Insurance Intelligence Industry. Our purpose is to provide actionable intelligence for tough questions about property and property contents. From our testing labs to fire inves', 'jobId': '30d3b5d654ffeb1633abc56431ab507e', 'score': 253.47673, 'easyApply': False, 
+                'willingToSponsor': False, 'employerType': 'Recruiter', 'workFromHomeAvailability': 'FALSE', 'isRemote': True, 'modifiedDate': '2025-02-09T01:18:07Z', 'guid': '325ad40a-d81d-427e-92dc-878becad82b2', 'workplaceTypes': ['Remote']}
+        self.assertEqual(sql.get_insert_values_MITM_scraper(dict_m_1), 
+                         ('REMOTE Structural Engineer', 'Jobot', '0000-00-00',-2,-2, 'unknown', 'unknown', True))
     def test_get_insert_values_API_scraper(self):
         self.assertEqual(sql.get_insert_values_API_scraper(self.dict_API), 
-                         ('Service delivery Manager ( experience of offshore model )', 'Code Convergence', '2025-02-06', 85000, 85000, 'UK', 'full_time', 'unknown'))    
-        
+                         ('Service delivery Manager ( experience of offshore model )', 'Code Convergence', '2025-02-06', 85000, 85000, 'UK', 'full_time', 'unknown')) 
+           
+        dict_a_1 = {'description': 'Position Summary: anagement in relevant areas like Service Desk, Infrastruct…', 'redirect_url': 'https://www.adzuna.co.uk/jobs/details/5039776326?utm_medium=api&utm_source=840352a3', 'category': {'label': 'IT Jobs', '__CLASS__': 'Adzuna::API::Response::Category', 'tag': 'it-jobs'}, 'adref': 'eyJhbGciOiJIUzI1NiJ9.eyJzIjoiV044VEF0RG03eEduVGZYZ0RjbHF0USIsImkiOiI1MDM5Nzc2MzI2In0.b0RNVsu5Kdo_CCpmzcNsGYV7wdw-NUvcVkMRo5hYCYw', 'created': '2025-02-06T11:44:05Z',  '__CLASS__': 'Adzuna::API::Response::Job', 'id': '5039776326', 'longitude': -0.139134, 'salary_is_predicted': '0', 'title': 'Service delivery Manager ( experience of offshore model )', 'contract_type': 'permanent', 'latitude': 51.503378}
+        self.assertEqual(sql.get_insert_values_API_scraper(dict_a_1), 
+                         ('Service delivery Manager ( experience of offshore model )', 'unknown', '2025-02-06', -2, -2, 'unknown', 'unknown', 'unknown'))
 if __name__ == '__main__':
     unittest.main() 

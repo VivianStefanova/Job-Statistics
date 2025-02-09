@@ -31,6 +31,7 @@ class MITM_clean_salary_tests(unittest.TestCase):
        
 class API_scraper_tests(unittest.TestCase):
     def test_expirience(self):
+        self.assertRaises(Exception, api.get_response, 1, 50, "")
         response = api.get_response()
         self.assertEqual(type(response), list)
         self.assertEqual(type(response[0]), dict)
