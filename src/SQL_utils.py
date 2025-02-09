@@ -55,8 +55,12 @@ def get_insert_values_API_scraper(data:dict) -> Tuple[str]:
         res.append(data["company"]["display_name"])
     else: res.append("unknown")    
     res.append(clean_date(data["created"]))
-    res.append(api.clean_salary(data["salary_min"]))
-    res.append(api.clean_salary(data["salary_max"]))
+    if("salary_min" in data):
+        res.append(api.clean_salary(data["salary_min"]))
+    else: res.append(-2)
+    if("salary_max" in data):
+        res.append(api.clean_salary(data["salary_max"]))
+    else: res.append(-2)    
     if("area" in data):
         res.append(data["area"][0])
     else: res.append("unknown")       
