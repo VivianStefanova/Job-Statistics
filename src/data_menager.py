@@ -55,10 +55,7 @@ def insert_values(data:list, is_API:bool, database:str = "job_statistics", table
         use_pure=True
         )
     values = [get_insert_values(i) for i in data]
-    print (values)
     cursor = mydb.cursor()
-    for i in values:
-        print(len(i))
     insert_sting = f"""INSERT INTO {table} (title, company,
                         posted_date, salary_min, salary_max, location,
                          contract_time, remote) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
