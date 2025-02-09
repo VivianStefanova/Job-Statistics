@@ -64,3 +64,4 @@ def get_insert_values_API_scraper(data:dict) -> Tuple[str]:
     else: res.append("unknown")
     res.append("unknown")
     return tuple(res)
+
