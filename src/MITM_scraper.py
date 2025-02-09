@@ -1,7 +1,7 @@
 import requests
 import re
 from typing import List
-def get_response(page:int=1, searchWord:str="", pageSize:int=20) -> list:
+def get_response(page:int=1, searchWord:str="", pageSize:int=100) -> List[dict]:
     headers = {
         'accept': 'application/json, text/plain, */*',
         'accept-language': 'en-US,en-GB;q=0.9,en;q=0.8,bg-BG;q=0.7,bg;q=0.6',
@@ -36,8 +36,10 @@ def get_response(page:int=1, searchWord:str="", pageSize:int=20) -> list:
         'fj': 'true',
         'includeRemote': 'true',
     }
-
-    response = requests.get('https://job-search-api.svc.dhigroupinc.com/v1/dice/jobs/search', params=params, headers=headers)       
+    try:
+        response = requests.get('https://job-search-api.svc.dhigroupinc.com/v1/dice/jobs/search', params=params, headers=headers)       
+    except:
+        raise Exception("API request failed")
     if(response.status_code != 200):
         print(f"Scraper failiure: {response.status_code}")
         raise Exception(f"Scraper failiure: {response.status_code}")
@@ -50,11 +52,10 @@ def clean_salary(salary:str) -> List[int]:
     result=[]
     if("experience" in salary or "doe" in salary or "exp" in salary):
        return [-1]
-    #try:
+    
     numbers = re.findall(r'([\d,]+(\.[\d]+)?)', salary)
     if(len(numbers) == 0 or len(numbers) > 2):
         return [-2]
-    print (numbers)
     for i in numbers:
         res=int(float(i[0].replace(",","")))
         if(res<300):
@@ -64,6 +65,3 @@ def clean_salary(salary:str) -> List[int]:
     if(result[0] <1):
         return [-2]    
     return result
-    # except Exception as e:
-    #     print(e)
-    #     return [-2]
