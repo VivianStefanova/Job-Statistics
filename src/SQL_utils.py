@@ -9,12 +9,12 @@ def clean_contract_time(contract_time:str) -> str:
     contract_time=contract_time.lower()
     if("full" in contract_time):
         return "full_time"
+    if("third" in contract_time):
+        return "third_party"
     if("part" in contract_time):
         return "part_time"
     if("contract" in contract_time):
         return "contract"
-    if("third" in contract_time):
-        return "third_party"
     return "unknown"
 
 def has_data(data:dict, data_name:str) -> str:
@@ -27,7 +27,9 @@ def get_insert_values_MITM_scraper(data:dict) -> Tuple[str]:
     res = []
     res.append(has_data(data, "title"))
     res.append(has_data(data, "companyName"))
-    res.append(clean_date(data["postedDate"]))
+    if("postedDate" in data):
+        res.append(clean_date(data["postedDate"]))
+    else: res.append("0000-00-00")
     if("salary" in data):
         sal = mi.clean_salary(data["salary"])
         if(len(sal) == 1):
@@ -40,7 +42,10 @@ def get_insert_values_MITM_scraper(data:dict) -> Tuple[str]:
         res.append(-2)
         res.append(-2)
     if("jobLocation" in data):
-        res.append(data["jobLocation"]["displayName"].split(",")[1].strip())
+        loction = data["jobLocation"]["displayName"].split(",")
+        if(len(loction) > 1):
+            res.append(loction[1].strip())
+        else: res.append(loction[0])    
     else: res.append("unknown")       
     if("employmentType" in data):
         res.append(clean_contract_time(data["employmentType"]))
@@ -52,7 +57,9 @@ def get_insert_values_API_scraper(data:dict) -> Tuple[str]:
     res = []
     res.append(has_data(data, "title"))
     if("company" in data):
-        res.append(data["company"]["display_name"])
+        if("display_name" in data["company"]):
+            res.append(data["company"]["display_name"])
+        else: res.append(data["company"])    
     else: res.append("unknown")    
     res.append(clean_date(data["created"]))
     if("salary_min" in data):
