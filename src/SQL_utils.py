@@ -61,8 +61,8 @@ def get_insert_values_API_scraper(data:dict) -> Tuple[str]:
     if("salary_max" in data):
         res.append(api.clean_salary(data["salary_max"]))
     else: res.append(-2)    
-    if("area" in data):
-        res.append(data["area"][0])
+    if("location" in data):
+        res.append(data["location"]["area"][0])
     else: res.append("unknown")       
     if("contract_time" in data):
         res.append(clean_contract_time(data["contract_time"]))
