@@ -23,3 +23,6 @@ class get_insert_values_tests(unittest.TestCase):
     def test_get_insert_values_API_scraper(self):
         self.assertEqual(sql.get_insert_values_API_scraper(self.dict_API), 
                          ('Service delivery Manager ( experience of offshore model )', 'Code Convergence', '2025-02-06', 85000, 85000, 'UK', 'full_time', 'unknown'))    
+        
+if __name__ == '__main__':
+    unittest.main() 
