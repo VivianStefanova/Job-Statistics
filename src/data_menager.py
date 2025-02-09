@@ -10,7 +10,6 @@ SQL_PASSWORD = os.getenv("SQL_PASSWORD")
 
 def start_SQL(database:str = "job_statistics", table:str = "job_data",
               mhost:str|None = SQL_HOST, muser:str|None = SQL_USER, mpassword:str|None = SQL_PASSWORD) ->None:
-    print("Connecting to SQL")
     try:
         mydb = mysql.connector.connect(
             host = mhost,
@@ -21,7 +20,7 @@ def start_SQL(database:str = "job_statistics", table:str = "job_data",
     except:
         print("Connection to SQL failed")
         raise Exception("Connection to SQL failed")
-    print(mydb)    
+   
     cursor = mydb.cursor()
     cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database}")
     mydb.close()
